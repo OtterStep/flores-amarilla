@@ -2,11 +2,13 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flores Amarillas</title>
+
 <style>
     body {
         margin: 0;
-        font-family: 'Arial', sans-serif;
+        font-family: Arial, sans-serif;
         background: #fffbea;
         overflow: hidden;
         text-align: center;
@@ -14,25 +16,27 @@
 
     #selector {
         position: absolute;
-        top: 40%;
+        top: 35%;
         width: 100%;
+        padding: 0 10px;
+    }
+
+    #number {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        margin: 20px;
     }
 
     button {
-        font-size: 2rem;
-        padding: 10px 20px;
+        font-size: clamp(1.5rem, 6vw, 2rem);
+        padding: 12px 20px;
         margin: 10px;
         border: none;
-        border-radius: 10px;
+        border-radius: 12px;
         background: #ffd54f;
         cursor: pointer;
     }
 
-    #number {
-        font-size: 3rem;
-        margin: 20px;
-    }
-
+    /* CONTENEDOR DE FLORES */
     #flowers {
         position: absolute;
         width: 100%;
@@ -57,14 +61,36 @@
         }
     }
 
+    /* MENSAJE FINAL */
     #message {
         position: absolute;
-        top: 40%;
+        top: 55%;
         width: 100%;
-        font-size: 2rem;
+        font-size: clamp(1.5rem, 5vw, 2.2rem);
         color: #f4a300;
         display: none;
         animation: fadeIn 2s ease-in-out;
+        padding: 0 15px;
+    }
+
+    /* IMAGEN */
+    #imageBox {
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: clamp(150px, 40vw, 250px);
+        height: clamp(150px, 40vw, 250px);
+        border-radius: 20px;
+        overflow: hidden;
+        display: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    #imageBox img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     @keyframes fadeIn {
@@ -73,6 +99,7 @@
     }
 </style>
 </head>
+
 <body>
 
 <div id="selector">
@@ -83,6 +110,11 @@
 
 <div id="flowers"></div>
 
+<!-- CUADRO DE IMAGEN -->
+<div id="imageBox">
+    <img src="freen.jpg" alt="Imagen especial">
+</div>
+
 <div id="message">
     💛 Te mereces infinitas flores 💛 <br>
     🌼🌹🌻 ¡Feliz día de las flores amarillas! 🌷💐
@@ -92,8 +124,7 @@
 let number = 0;
 let animating = false;
 
-// Lista de flores diferentes
-const flowerTypes = ["🌼", "🌻", "🌻", "🌷", "💐"];
+const flowerTypes = ["🌼", "🌻", "🌹", "🌷", "💐"];
 
 function startAnimation() {
     if (animating) return;
@@ -106,7 +137,7 @@ function startAnimation() {
             document.getElementById("number").innerText = "∞";
             clearInterval(interval);
 
-            setTimeout(showFlowers, 1000);
+            setTimeout(showFlowers, 800);
         } else {
             document.getElementById("number").innerText = number;
         }
@@ -119,7 +150,10 @@ function showFlowers() {
     const flowersContainer = document.getElementById("flowers");
     flowersContainer.style.display = "block";
 
-    for (let i = 0; i < 70; i++) {
+    // Mostrar imagen
+    document.getElementById("imageBox").style.display = "block";
+
+    for (let i = 0; i < 80; i++) {
         createFlower(flowersContainer);
     }
 
@@ -130,7 +164,6 @@ function createFlower(container) {
     const flower = document.createElement("div");
     flower.classList.add("flower");
 
-    // Elegir flor aleatoria
     flower.innerText = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
 
     flower.style.left = Math.random() * 100 + "vw";
