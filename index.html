@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Flores Amarillas</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background: #fffbea;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    #selector {
+        position: absolute;
+        top: 40%;
+        width: 100%;
+    }
+
+    button {
+        font-size: 2rem;
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 10px;
+        background: #ffd54f;
+        cursor: pointer;
+    }
+
+    #number {
+        font-size: 3rem;
+        margin: 20px;
+    }
+
+    #flowers {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: none;
+        overflow: hidden;
+    }
+
+    .flower {
+        position: absolute;
+        animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+        from {
+            transform: translateY(-10%);
+            opacity: 1;
+        }
+        to {
+            transform: translateY(110vh);
+            opacity: 0;
+        }
+    }
+
+    #message {
+        position: absolute;
+        top: 40%;
+        width: 100%;
+        font-size: 2rem;
+        color: #f4a300;
+        display: none;
+        animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>
+</head>
+<body>
+
+<div id="selector">
+    <div id="number">0</div>
+    <button onclick="startAnimation()">➕</button>
+    <button onclick="startAnimation()">➖</button>
+</div>
+
+<div id="flowers"></div>
+
+<div id="message">
+    💛 Te mereces infinitas flores 💛 <br>
+    🌼🌹🌻 ¡Feliz día de las flores amarillas! 🌷💐
+</div>
+
+<script>
+let number = 0;
+let animating = false;
+
+// Lista de flores diferentes
+const flowerTypes = ["🌼", "🌻", "🌻", "🌷", "💐"];
+
+function startAnimation() {
+    if (animating) return;
+    animating = true;
+
+    let interval = setInterval(() => {
+        number += Math.floor(Math.random() * 20) + 5;
+
+        if (number >= 1000) {
+            document.getElementById("number").innerText = "∞";
+            clearInterval(interval);
+
+            setTimeout(showFlowers, 1000);
+        } else {
+            document.getElementById("number").innerText = number;
+        }
+    }, 50);
+}
+
+function showFlowers() {
+    document.getElementById("selector").style.display = "none";
+
+    const flowersContainer = document.getElementById("flowers");
+    flowersContainer.style.display = "block";
+
+    for (let i = 0; i < 70; i++) {
+        createFlower(flowersContainer);
+    }
+
+    document.getElementById("message").style.display = "block";
+}
+
+function createFlower(container) {
+    const flower = document.createElement("div");
+    flower.classList.add("flower");
+
+    // Elegir flor aleatoria
+    flower.innerText = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+
+    flower.style.left = Math.random() * 100 + "vw";
+    flower.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    flower.style.fontSize = (Math.random() * 25 + 20) + "px";
+
+    container.appendChild(flower);
+
+    setTimeout(() => {
+        flower.remove();
+        createFlower(container);
+    }, 5000);
+}
+</script>
+
+</body>
+</html>
